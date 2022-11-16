@@ -1,0 +1,46 @@
+---
+- hosts: loadbalancer
+  become: true
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: start nginx
+      service: name=nginx state=started
+
+    - name: install tools
+      apt:
+        name:
+          - curl
+        state: present
+        update_cache: yes
+
+    - name: install vim tools
+      apt:
+        name:
+          - vim
+        state: present
+        update_cache: yes
+
+    - name: configure nginx site
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/conf.d/load-balancer.conf
+        mode: 0644
+      notify: restart nginx
+
+    - name: de active default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+    - name: stop nginx
+      service: name=nginx state=restarted
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted

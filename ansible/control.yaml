@@ -1,0 +1,10 @@
+---
+- hosts: controller
+  become: true
+  tasks:
+    - name: install tools
+      apt:
+        name: 
+          - curl
+        state: present
+        update_cache: yes

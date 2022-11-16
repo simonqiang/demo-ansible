@@ -1,0 +1,6 @@
+---
+- import_playbook: control.yaml
+- import_playbook: database.yaml
+- import_playbook: webserver_node.yaml
+- import_playbook: loadbalancer.yaml
+

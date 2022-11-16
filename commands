@@ -1,0 +1,13 @@
+ansible --list-hosts all
+
+ansible -m ping all
+
+ansible -m command -a "hostname" all
+ansible -a "hostname" all
+
+wget -qO- lb01
+curl lb01
+
+docker-compose up --build -d
+docker container exec -it demo-ansible_control_1 bash
+docker-compose down --remove-orphan
